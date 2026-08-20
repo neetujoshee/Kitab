@@ -1,0 +1,307 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Fonts ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,700;1,9..144,900&display=swap');
+
+/* ─── Design Tokens ──────────────────────────────────────── */
+:root {
+  --bg:        #07070f;
+  --surface:   #0f0f1c;
+  --card:      #161625;
+  --raised:    #1e1e30;
+  --border:    #28284a;
+  --accent:    #f5c842;
+  --accent2:   #ff7eb3;
+  --muted:     #6868a0;
+  --text:      #eeebf8;
+
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
+
+  --transition-fast:   120ms var(--ease-out);
+  --transition-base:   220ms var(--ease-out);
+  --transition-slow:   400ms var(--ease-out);
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ─── Link transitions ───────────────────────────────────── */
+a { transition: color var(--transition-fast); }
+
+/* ─── Image loading ──────────────────────────────────────── */
+/* Show the surface color as a placeholder while any image loads.
+   Prevents the jarring white flash / broken-image state. */
+img {
+  background-color: var(--raised);
+  color: transparent; /* hides alt text during load */
+}
+
+/* Fade-in when the browser finishes decoding the image.
+   Works automatically — no JS needed. */
+@keyframes imgFadeIn {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+img[src] {
+  animation: imgFadeIn 0.35s ease both;
+}
+/* Don't re-animate on hover-triggered scale transitions */
+img[src]:hover { animation: none; }
+
+/* ─── Keyframes ──────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to   { opacity: 1 }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px) }
+  to   { opacity: 1; transform: translateY(0) }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-12px) }
+  to   { opacity: 1; transform: translateY(0) }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92) }
+  to   { opacity: 1; transform: scale(1) }
+}
+@keyframes springIn {
+  0%   { opacity: 0; transform: scale(0.88) translateY(16px) }
+  60%  { opacity: 1; transform: scale(1.02) translateY(-2px) }
+  100% { transform: scale(1) translateY(0) }
+}
+@keyframes shimmer {
+  0%   { background-position: -600px 0 }
+  100% { background-position:  600px 0 }
+}
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0px) }
+  50%       { transform: translateY(-8px) }
+}
+@keyframes gradientShift {
+  0%   { background-position: 0% 50% }
+  50%  { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+@keyframes scrollUp {
+  from { transform: translateY(0) }
+  to   { transform: translateY(-50%) }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,200,66,0); }
+  50%       { box-shadow: 0 0 20px 4px rgba(245,200,66,0.15); }
+}
+@keyframes starPop {
+  0%   { transform: scale(1) }
+  40%  { transform: scale(1.4) rotate(-8deg) }
+  70%  { transform: scale(0.9) rotate(4deg) }
+  100% { transform: scale(1) rotate(0deg) }
+}
+@keyframes ripple {
+  from { transform: scale(0); opacity: 0.4 }
+  to   { transform: scale(4); opacity: 0 }
+}
+@keyframes progressBar {
+  0%   { width: 0%; opacity: 1 }
+  80%  { width: 85%; opacity: 1 }
+  100% { width: 100%; opacity: 0 }
+}
+@keyframes staggerFade {
+  from { opacity: 0; transform: translateY(16px) }
+  to   { opacity: 1; transform: translateY(0) }
+}
+
+/* ─── Animation classes ──────────────────────────────────── */
+.animate-fade   { animation: fadeIn  0.25s var(--ease-out) both }
+.animate-up     { animation: slideUp 0.35s var(--ease-out) both }
+.animate-down   { animation: slideDown 0.25s var(--ease-out) both }
+.animate-scale  { animation: scaleIn 0.25s var(--ease-out) both }
+.animate-spring { animation: springIn 0.45s var(--ease-spring) both }
+.animate-float  { animation: floatUp 3s ease-in-out infinite }
+
+/* Stagger children */
+.stagger > *:nth-child(1) { animation: staggerFade 0.4s 0.05s var(--ease-out) both }
+.stagger > *:nth-child(2) { animation: staggerFade 0.4s 0.10s var(--ease-out) both }
+.stagger > *:nth-child(3) { animation: staggerFade 0.4s 0.15s var(--ease-out) both }
+.stagger > *:nth-child(4) { animation: staggerFade 0.4s 0.20s var(--ease-out) both }
+.stagger > *:nth-child(5) { animation: staggerFade 0.4s 0.25s var(--ease-out) both }
+.stagger > *:nth-child(6) { animation: staggerFade 0.4s 0.30s var(--ease-out) both }
+.stagger > *:nth-child(7) { animation: staggerFade 0.4s 0.35s var(--ease-out) both }
+.stagger > *:nth-child(8) { animation: staggerFade 0.4s 0.40s var(--ease-out) both }
+
+/* ─── Components ─────────────────────────────────────────── */
+@layer components {
+
+  /* Typography */
+  .font-display { font-family: 'Fraunces', Georgia, serif; }
+
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(135deg, #f5c842 0%, #ff9d6c 50%, #ff7eb3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2 font-semibold
+           rounded-xl overflow-hidden select-none
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400/60
+           disabled:opacity-50 disabled:cursor-not-allowed;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+                background var(--transition-fast), color var(--transition-fast);
+  }
+  .btn:not(:disabled):active { transform: scale(0.96) !important; }
+
+  .btn-sm  { @apply btn text-xs px-3.5 py-1.5 gap-1.5 }
+  .btn-md  { @apply btn text-sm px-5 py-2.5 }
+  .btn-lg  { @apply btn text-base px-7 py-3.5 }
+
+  .btn-gold {
+    @apply bg-[#f5c842] text-gray-950;
+    box-shadow: 0 2px 12px rgba(245,200,66,0.25);
+  }
+  .btn-gold:not(:disabled):hover {
+    background: #f7d056;
+    box-shadow: 0 4px 20px rgba(245,200,66,0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost  { @apply text-[#6868a0] hover:bg-white/5 hover:text-gray-200 }
+  .btn-outline {
+    @apply border border-[#28284a] text-gray-300;
+    transition: border-color var(--transition-fast), background var(--transition-fast),
+                transform var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .btn-outline:hover {
+    border-color: rgba(245,200,66,0.4);
+    background: rgba(245,200,66,0.04);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-[#161625] border border-[#28284a] rounded-2xl;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base),
+                transform var(--transition-base);
+  }
+  .card-hover {
+    @apply card cursor-pointer;
+  }
+  .card-hover:hover {
+    border-color: rgba(245,200,66,0.25);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(245,200,66,0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Inputs */
+  .input {
+    @apply w-full bg-[#1e1e30] border border-[#28284a] text-gray-200
+           placeholder-[#6868a0] rounded-xl px-4 py-3 text-sm;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base),
+                background var(--transition-base);
+  }
+  .input:focus {
+    outline: none;
+    border-color: rgba(245,200,66,0.5);
+    box-shadow: 0 0 0 3px rgba(245,200,66,0.08), inset 0 0 0 1px rgba(245,200,66,0.1);
+    background: #222236;
+  }
+  .input-sm { @apply input py-2 text-xs }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(90deg,
+      var(--raised) 25%,
+      #26263e 37%,
+      var(--raised) 63%
+    );
+    background-size: 600px 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+    border-radius: 8px;
+  }
+
+  /* Badges */
+  .badge        { @apply inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full }
+  .badge-read   { @apply badge bg-emerald-500/15 text-emerald-400 }
+  .badge-reading{ @apply badge bg-blue-500/15 text-blue-400 }
+  .badge-want   { @apply badge bg-violet-500/15 text-violet-400 }
+  .badge-dnf    { @apply badge bg-red-500/15 text-red-400 }
+
+  .section-label { @apply text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6868a0] }
+
+  /* Book cover hover lift */
+  .book-lift {
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    will-change: transform;
+  }
+  .book-lift:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(245,200,66,0.1);
+  }
+
+  /* Modal backdrop */
+  .modal-backdrop {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+    background: rgba(7,7,15,0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: fadeIn 0.2s var(--ease-out);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px }
+  ::-webkit-scrollbar-track { background: transparent }
+  ::-webkit-scrollbar-thumb { background: var(--raised); border-radius: 4px }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border) }
+
+  /* Spoiler */
+  .spoiler-text {
+    background: var(--raised); color: transparent; border-radius: 4px;
+    cursor: pointer; transition: all 0.2s; user-select: none;
+  }
+  .spoiler-text.revealed { color: inherit; background: transparent }
+
+  /* Star animation */
+  .star-rated { animation: starPop 0.35s var(--ease-spring) }
+
+  /* Nav progress bar */
+  .nav-progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 9999;
+    background: linear-gradient(90deg, #f5c842, #ff9d6c, #ff7eb3);
+  }
+  .nav-progress-bar {
+    height: 100%;
+    animation: progressBar 2.5s var(--ease-in-out) forwards;
+    background: linear-gradient(90deg, #f5c842, #ff9d6c);
+    box-shadow: 0 0 8px rgba(245,200,66,0.6);
+  }
+
+  /* Page wrapper */
+  .page-enter {
+    animation: slideUp 0.35s var(--ease-out) both;
+  }
+}
+
+/* ─── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

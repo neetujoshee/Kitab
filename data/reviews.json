@@ -1,0 +1,18 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "createdAt": "2026-08-19T18:59:30.277Z",
+      "bookKey": "/works/OL82563W",
+      "rating": 5,
+      "title": "/works/OL82563W"
+    },
+    {
+      "id": 2,
+      "createdAt": "2026-08-19T18:59:32.000Z",
+      "bookKey": "/works/OL82563W",
+      "rating": 5,
+      "title": "/works/OL82563W"
+    }
+  ]
+}
